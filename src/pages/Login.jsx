@@ -1,7 +1,26 @@
 import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../redux/apis/authApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/authSlice";
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loginUser, { isSuccess, isLoading, isError, error }] =
+    useLoginMutation();
+
+  const onFinish = async (values) => {
+    try {
+      const res = await loginUser(values).unwrap();
+      if (res) {
+        localStorage.setItem("accessToken", res?.token);
+        dispatch(setUser(res?.data));
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
   return (
     <div className="flex justify-center items-center w-full h-[75vh]">
       <Form
@@ -9,8 +28,7 @@ export default function Login() {
         initialValues={{
           remember: true,
         }}
-        //   onFinish={onFinish}
-        //   onFinishFailed={onFinishFailed}
+        onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
         className="w-1/3"

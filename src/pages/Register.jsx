@@ -1,7 +1,28 @@
 import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../redux/apis/authApi";
+import { setUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [registerAccount, { isSuccess, isError, error }] =
+    useRegisterMutation();
+
+  const onFinish = async (data) => {
+    try {
+      const res = await registerAccount(data).unwrap();
+      if (res) {
+        localStorage.setItem("accessToken", res?.token);
+        dispatch(setUser(res?.data));
+        navigate(`/${res?.data?.accountType}`);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   return (
     <div className="flex justify-center items-center w-full h-[75vh]">
       <Form
@@ -9,49 +30,48 @@ export default function Register() {
         initialValues={{
           remember: true,
         }}
-        //   onFinish={onFinish}
-        //   onFinishFailed={onFinishFailed}
+        onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
         className="w-1/3"
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="Full Name"
+          name="fullName"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Please input your full name!",
             },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="Username"
-          name="username"
+          label="Email"
+          name="email"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Please input your email!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Profession"
+          name="profession"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email!",
             },
           ]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
         <Form.Item
           label="Password"
           name="password"

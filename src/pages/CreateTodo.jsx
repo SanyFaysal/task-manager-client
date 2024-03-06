@@ -1,15 +1,30 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useCreateTodoMutation } from "../redux/apis/todoApi";
+import { message } from "antd";
+import { useSelector } from "react-redux";
 
 const CreateTodo = () => {
   const { handleSubmit, control, reset } = useForm();
-  const [todos, setTodos] = React.useState([]);
-  const priorities = ["low", "high"];
-  const statuses = ["ongoing", "completed", "todo"];
+  const { user } = useSelector((state) => state.auth);
+  const priorities = ["low", "medium", "high"];
 
-  const onSubmit = (data) => {
-    setTodos((prevTodos) => [...prevTodos, data]);
-    reset();
+  const [createTodo, { isSuccess, isLoading, isError, error }] =
+    useCreateTodoMutation();
+
+  const onSubmit = async (data) => {
+    try {
+      data.owner = user?._id;
+      console.log({ user });
+      const res = await createTodo(data).unwrap();
+      if (res) {
+        message.success("Created Successful");
+
+        reset();
+      }
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   return (
