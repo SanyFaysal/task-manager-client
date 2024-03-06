@@ -6,7 +6,7 @@ export default function TodoContainer({ list, provided, title, color }) {
     <div
       ref={provided.innerRef}
       {...provided.droppableProps}
-      className={`flex flex-col gap-y-2  rounded px-4 w-[350px]  `}
+      className={`flex flex-col gap-y-2  rounded px-4 min-w-[350px]  `}
     >
       <h2 className="mb-1 text-xl ">{title}</h2>
       {list?.map((item, index) => (

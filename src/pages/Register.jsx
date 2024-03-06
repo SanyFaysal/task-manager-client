@@ -24,7 +24,8 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-[75vh]">
+    <div className="flex flex-col justify-center items-center w-full h-[100vh]">
+      <p className="mt-5 text-xl mb-4">Register your account</p>
       <Form
         name="basic"
         initialValues={{
@@ -33,7 +34,7 @@ export default function Register() {
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
-        className="w-1/3"
+        className="lg:w-1/3 w-full px-5"
       >
         <Form.Item
           label="Full Name"
@@ -85,19 +86,22 @@ export default function Register() {
           <Input.Password />
         </Form.Item>
 
-        <div className="flex justify-between w-full">
+        <div className="lg:flex justify-between items-center w-full">
           <div className="">
             Don't have any account ? <Link to={"/login"}>Login</Link>{" "}
           </div>{" "}
           "
           <button
             type="submit"
-            className="bg-blue-500 text-white px-3 py-2 rounded"
+            className="bg-blue-500 text-white px-3 py-2 mt-3 rounded"
           >
             Register
           </button>
         </div>
       </Form>
+      <div className="flex justify-center">
+        <Link to={"/"}>Go to Home </Link>
+      </div>
     </div>
   );
 }

@@ -3,11 +3,11 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  HomeOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -17,24 +17,40 @@ function getItem(label, key, icon, children) {
     label,
   };
 }
-const items = [
-  getItem(<Link to={"/dashboard"}>Profile</Link>, "1", <UserOutlined />),
-  getItem(
-    <Link to={"/dashboard/all-todo"}>All Todo</Link>,
-    "2",
-    <DesktopOutlined />
-  ),
-  getItem(
-    <Link to={"/dashboard/create-todo"}>Create New Todo</Link>,
-    "sub1",
-    <UserOutlined />
-  ),
-];
+
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const pathname = useLocation();
+  console.log({ pathname });
+
+  const items = [
+    getItem(
+      <Link to={"/"} className="mb-5">
+        Home
+      </Link>,
+      "/",
+      <HomeOutlined />
+    ),
+    getItem(
+      <Link to={"/dashboard"}>Profile</Link>,
+      "/dashboard",
+      <UserOutlined />
+    ),
+    getItem(
+      <Link to={"/dashboard/all-todo"}>All Todo</Link>,
+      "/dashboard/all-todo",
+      <DesktopOutlined />
+    ),
+    getItem(
+      <Link to={"/dashboard/create-todo"}>Create New Todo</Link>,
+      "/dashboard/create-todo",
+      <UserOutlined />
+    ),
+  ];
   return (
     <Layout
       style={{
@@ -49,7 +65,8 @@ const DashboardLayout = () => {
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
-          defaultSelectedKeys={["1"]}
+          className="sticky top-0"
+          defaultSelectedKeys={[pathname?.pathname]}
           mode="inline"
           items={items}
         />

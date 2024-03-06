@@ -8,10 +8,13 @@ import {
   useUpdateTaskMutation,
 } from "../redux/apis/todoApi";
 import { message } from "antd";
+import { useLocation } from "react-router-dom";
 
 // Sample data for the two lists
 
 const AllTodos = () => {
+  const pathname = useLocation();
+  console.log({ pathname });
   const token = localStorage.getItem("accessToken");
   const { data, isSuccess } = useGetAllTodoQuery({ token });
   const [updateTask, { isSuccess: isSucc }] = useUpdateTaskMutation();
@@ -70,7 +73,7 @@ const AllTodos = () => {
   }, [isSuccess, data]);
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="flex gap-2 ">
+      <div className="flex gap-2 overflow-x-auto pb-10">
         <Droppable droppableId="todo">
           {(provided) => (
             <TodoContainer

@@ -22,7 +22,8 @@ export default function Login() {
     }
   };
   return (
-    <div className="flex justify-center items-center w-full h-[75vh]">
+    <div className=" flex flex-col justify-center items-center w-full h-[75vh]">
+      <p className="mt-5 text-xl mb-4 ">Login your account</p>
       <Form
         name="basic"
         initialValues={{
@@ -31,7 +32,7 @@ export default function Login() {
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
-        className="w-1/3"
+        className="lg:w-1/3 w-full px-5 "
       >
         <Form.Item
           label="Email"
@@ -59,7 +60,7 @@ export default function Login() {
           <Input.Password />
         </Form.Item>
 
-        <div className="flex justify-between w-full">
+        <div className="lg:flex items-center justify-between w-full">
           <div className="">
             Don't have any account ? <Link to={"/register"}>Register</Link>{" "}
           </div>{" "}
@@ -71,6 +72,9 @@ export default function Login() {
           </button>
         </div>
       </Form>
+      <div className="flex justify-center mt-10">
+        <Link to={"/"}>Go to Home </Link>
+      </div>
     </div>
   );
 }

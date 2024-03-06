@@ -18,6 +18,13 @@ const todoApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Todo"],
     }),
+    deleteTask: builder.mutation({
+      query: ({ taskId }) => ({
+        url: `/task/delete/${taskId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Todo"],
+    }),
     getMe: builder.query({
       query: (token) => ({
         url: `/auth/me`,
@@ -44,4 +51,5 @@ export const {
   useCreateTodoMutation,
   useGetAllTodoQuery,
   useUpdateTaskMutation,
+  useDeleteTaskMutation,
 } = todoApi;
